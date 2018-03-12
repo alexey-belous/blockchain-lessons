@@ -47,11 +47,11 @@ func (pow *ProofOfWork) Run() (int, []byte) {
 	nonce := 0
 	maxNonce := math.MaxInt64
 
-	fmt.Println("Mining the block containing \"%s\"\n", pow.block.Data)
+	fmt.Printf("Mining the block containing \"%s\"\n", pow.block.Data)
 	for nonce < maxNonce {
 		data := pow.prepeareData(nonce)
 		hash = sha256.Sum256(data)
-		fmt.Printf("\r%x", hash)
+		fmt.Printf("\r Nonce: %d\t Hash: %x", nonce, hash)
 		hashInt.SetBytes(hash[:])
 
 		if hashInt.Cmp(pow.target) == -1 {
