@@ -3,10 +3,11 @@ package core
 import (
 	"bytes"
 	"crypto/sha256"
+	"encoding/binary"
 	"fmt"
+	"log"
 	"math"
 	"math/big"
-	"strconv"
 )
 
 const targetBits = 24
@@ -26,7 +27,13 @@ func NewProofOfWork(b *Block) *ProofOfWork {
 }
 
 func IntToHex(n int64) []byte {
-	return []byte(strconv.FormatInt(n, 16))
+	buff := new(bytes.Buffer)
+	err := binary.Write(buff, binary.BigEndian, n)
+	if err != nil {
+		log.Panic(err)
+	}
+
+	return buff.Bytes()
 }
 
 func (pow *ProofOfWork) prepeareData(nonce int) []byte {
